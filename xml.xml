@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<items totalitems="9" termsofuse="http://boardgamegeek.com/xmlapi/termsofuse" pubdate="Sat, 23 Sep 2017 11:32:02 +0000">
+<item objecttype="thing" objectid="73369" subtype="boardgame" collid="43373838">
+	<name sortindex="1">51st State</name>
+		<yearpublished>2010</yearpublished>			<image>https://cf.geekdo-images.com/images/pic1149172.jpg</image>
+		<thumbnail>https://cf.geekdo-images.com/images/pic1149172_t.jpg</thumbnail>
+		<stats minplayers="2"																	maxplayers="4"																	minplaytime="40"																	maxplaytime="90"																	playingtime="90"																	numowned="3334" >
+				<rating value="N/A">			<usersrated value="2529" />			<average value="6.91877" />
+			<bayesaverage value="6.50886" />			<stddev value="1.46571" />
+			<median value="0" />		</rating>
+			</stats>	<status own="1" prevowned="0" fortrade="0" want="0" wanttoplay="0" wanttobuy="0" wishlist="0"  preordered="0" lastmodified="2017-06-23 12:33:28" />
+	<numplays>0</numplays>							</item>
+<item objecttype="thing" objectid="172818" subtype="boardgame" collid="43373848">
+	<name sortindex="1">Above and Below</name>
+		<yearpublished>2015</yearpublished>			<image>https://cf.geekdo-images.com/images/pic2398773.jpg</image>
+		<thumbnail>https://cf.geekdo-images.com/images/pic2398773_t.jpg</thumbnail>
+		<stats minplayers="2"																	maxplayers="4"																	minplaytime="90"																	maxplaytime="90"																	playingtime="90"																	numowned="10326" >
+				<rating value="N/A">			<usersrated value="6552" />			<average value="7.6506" />
+			<bayesaverage value="7.33913" />			<stddev value="1.22357" />
+			<median value="0" />		</rating>
+			</stats>	<status own="1" prevowned="0" fortrade="0" want="0" wanttoplay="0" wanttobuy="0" wishlist="0"  preordered="0" lastmodified="2017-06-23 12:33:57" />
+      <numplays>0</numplays>							</item>
+  </items>

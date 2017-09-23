@@ -1,0 +1,40 @@
+package main
+
+import (
+	"encoding/xml"
+	"fmt"
+	"io/ioutil"
+	//"net/http"
+	"os"
+)
+
+type Game struct {
+	Name  string `xml:"name"`
+	Ptime int    `xml:"maxplaytime,attr"`
+}
+
+type Obj struct {
+	Bg []Game   `xml:"item"`
+	_  xml.Name `xml:"items"`
+}
+
+func main() {
+	var acctName string
+	fmt.Println("User:")
+	fmt.Scan(&acctName)
+	retrieve(acctName)
+
+}
+
+func retrieve(acctName string) {
+	//url := "https://www.boardgamegeek.com/xmlapi/collection/" + acctName
+	//res, _ := http.Get(url)
+	res, _ := os.Open("xml.xml")
+	dat, _ := ioutil.ReadAll(res)
+	g := Obj{}
+	xml.Unmarshal(dat, &g)
+	for _, bg := range g.Bg {
+		fmt.Println(bg)
+	}
+	//fmt.Println(g.Ident)
+}
