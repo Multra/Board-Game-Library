@@ -21,11 +21,11 @@ type Stats struct {
 	Ptime      int    `xml:"maxplaytime,attr"`
 	Maxplayers int    `xml:"maxplayers,attr"`
 	Minplayers int    `xml:"minplayers,attr"`
-	Rate       Rating `xml:"rating"`
+	Rate       Rating `xml:"rating>bayesaverage"`
 }
 
 type Rating struct {
-	Bayrating float32 `xml:",any"`
+	Bayrating float32 `xml:"value,attr"`
 }
 
 func main() {
