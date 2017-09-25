@@ -4,13 +4,14 @@ import (
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 )
 
 type Game struct {
-	Name string `xml:"name"`
-	Stat Stats  `xml:"stats"`
-	//	Rate Rating `xml:,innerxml"`
+	Name  string `xml:"name"`
+	Stat  Stats  `xml:"stats"`
+	Ident int    `xml:"objectid,attr"`
 }
 
 type Obj struct {
@@ -32,21 +33,25 @@ func main() {
 	var acctName string
 	fmt.Println("User:")
 	fmt.Scan(&acctName)
-	retrieve(acctName)
+	a := retrieve(acctName)
+	for _, bg := range a.Bg {
+		fmt.Println("Name:", bg.Name)
+		fmt.Println("ID:", bg.Ident)
+		fmt.Println("Play time:", bg.Stat.Ptime)
+		fmt.Println("Max Players:", bg.Stat.Maxplayers)
+		fmt.Printf("Average Rating: %.2f\n", bg.Stat.Rate.Bayrating)
+		fmt.Println()
+	}
 
 }
 
-func retrieve(acctName string) {
-	url := "https://www.boardgamegeek.com/xmlapi/collection/" + acctName + "?stats=1"
-	res, _ := http.Get(url)
+func retrieve(acctName string) Obj {
+	res, _ := http.Get("https://www.boardgamegeek.com/xmlapi/collection/" + acctName + "?stats=1")
+	if res.StatusCode != 200 {
+		log.Fatal("Error code " + string(res.StatusCode) + " returned, try again later")
+	}
 	dat, _ := ioutil.ReadAll(res.Body)
 	g := Obj{}
 	xml.Unmarshal(dat, &g)
-	for _, bg := range g.Bg {
-		fmt.Println("Name:", bg.Name)
-		fmt.Println("Play time:", bg.Stat.Ptime)
-		fmt.Println("Max Players:", bg.Stat.Maxplayers)
-		fmt.Println("Average Rating:", bg.Stat.Rate.Bayrating)
-		fmt.Println()
-	}
+	return g
 }
