@@ -5,7 +5,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"math/rand"
 	"net/http"
+	"time"
 )
 
 type Game struct {
@@ -42,6 +44,10 @@ func main() {
 		fmt.Printf("Average Rating: %.2f\n", bg.Stat.Rate.Bayrating)
 		fmt.Println()
 	}
+	gNum := selector(len(a.Bg))
+	for _, n := range gNum {
+		fmt.Println(a.Bg[n])
+	}
 
 }
 
@@ -54,4 +60,23 @@ func retrieve(acctName string) Obj {
 	g := Obj{}
 	xml.Unmarshal(dat, &g)
 	return g
+}
+
+func selector(n int) []int {
+	rand.Seed(time.Now().UTC().UnixNano())
+	s := make([]int, 5)
+	var rn int
+	for c := 0; c < 5; c++ {
+		rn = rand.Intn(n)
+		fmt.Println(rn)
+		for p, a := range s {
+			if a == rn && c > 0 {
+				c = p
+				break
+			}
+		}
+		s[c] = rn
+		fmt.Println(s)
+	}
+	return s
 }
