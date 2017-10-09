@@ -3,10 +3,12 @@ package main
 import (
 	"encoding/xml"
 	"fmt"
+	"io"
 	"io/ioutil"
 	"log"
 	"math/rand"
 	"net/http"
+	"strings"
 	"time"
 )
 
@@ -32,22 +34,16 @@ type Rating struct {
 }
 
 func main() {
-	var acctName string
-	fmt.Println("User:")
-	fmt.Scan(&acctName)
-	a := retrieve(acctName)
-	for _, bg := range a.Bg {
-		fmt.Println("Name:", bg.Name)
-		fmt.Println("ID:", bg.Ident)
-		fmt.Println("Play time:", bg.Stat.Ptime)
-		fmt.Println("Max Players:", bg.Stat.Maxplayers)
-		fmt.Printf("Average Rating: %.2f\n", bg.Stat.Rate.Bayrating)
-		fmt.Println()
-	}
-	gNum := selector(len(a.Bg))
-	for _, n := range gNum {
-		fmt.Println(a.Bg[n])
-	}
+	//	fmt.Println("User:")
+	//	fmt.Scan(&acctName)
+	http.HandleFunc("/process", process)
+	http.Handle("/", http.FileServer(http.Dir(".")))
+	http.ListenAndServe("127.0.0.1:8080", nil)
+	//	a := retrieve(acctName)
+
+	//	gNum := selector(len(a.Bg))
+	//	for _, n := range gNum {
+	//		fmt.Println(a.Bg[n])
 
 }
 
@@ -64,7 +60,13 @@ func retrieve(acctName string) Obj {
 
 func selector(n int) []int {
 	rand.Seed(time.Now().UTC().UnixNano())
-	s := make([]int, 5)
+	m := 0
+	if n < 5 {
+		m = n
+	} else {
+		m = 5
+	}
+	s := make([]int, m)
 	var rn int
 	for c := 0; c < 5; c++ {
 		rn = rand.Intn(n)
@@ -79,4 +81,22 @@ func selector(n int) []int {
 		fmt.Println(s)
 	}
 	return s
+}
+
+func process(w http.ResponseWriter, r *http.Request) {
+	r.ParseForm()
+	//	fmt.Println(r.PostForm["name"])
+	bggname := strings.Join(r.PostForm["name"], "")
+	a := retrieve(bggname)
+	gNum := selector(len(a.Bg))
+
+	for _, n := range gNum {
+		//		fmt.Println(a.Bg[n])
+		io.WriteString(w, a.Bg[n].Name+"\n")
+	}
+	//	io.WriteString(w, string(r.PostForm["name"]))
+}
+
+func toString(g Game) string {
+	return fmt.Sprintf("%v\n", g)
 }
